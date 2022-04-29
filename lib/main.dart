@@ -56,55 +56,87 @@ class _MyAppState extends State<MyApp> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Clock',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    Text(
-                      dateFormaterTime,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 54,
-                      ),
-                    ),
-                    Text(
-                      dateFormaterDate,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                      ),
-                    ),
-                    ClockView(),
-                    const Text(
-                      'Time zone here',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.language,
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: const Text(
+                        'Clock',
+                        style: TextStyle(
                           color: Colors.white,
+                          fontSize: 24,
                         ),
-                        SizedBox(
-                          width: 24,
-                        ),
-                        Text(
-                          "GMT+" + offsetSign + timezoneString,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
+                      ),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            dateFormaterTime,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 54,
+                            ),
                           ),
+                          Text(
+                            dateFormaterDate,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Flexible(
+                      flex: 4,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: ClockView(
+                          size: 350,
                         ),
-                      ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Flexible(
+                      flex: 2,
+                      fit: FlexFit.tight,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Time zone here',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 14,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.language,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 24,
+                              ),
+                              Text(
+                                "GMT+" + offsetSign + timezoneString,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
