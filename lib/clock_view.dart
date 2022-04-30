@@ -40,6 +40,9 @@ class _HomePageState extends State<HomePage> {
 }
 
 class ClockView extends StatefulWidget {
+  final double? size;
+
+  const ClockView({Key? key, this.size}) : super(key: key);
   @override
   _ClockViewState createState() => _ClockViewState();
 }
@@ -56,8 +59,8 @@ class _ClockViewState extends State<ClockView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
-      height: 300,
+      width: widget.size,
+      height: widget.size,
       child: Transform.rotate(
         angle: -pi / 2,
         child: CustomPaint(
