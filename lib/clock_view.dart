@@ -53,6 +53,7 @@ class _ClockViewState extends State<ClockView> {
   //   Timer.periodic(Duration(seconds: 1), (timer) {
   //     setState(() {});
   //   });
+
   //   super.initState();
   // }
 
