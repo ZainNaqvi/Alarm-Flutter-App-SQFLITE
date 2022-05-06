@@ -108,9 +108,10 @@ class HomeScreen extends StatelessWidget {
   Padding appbarButtons({required String title}) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
-      child: ElevatedButton(
-        style: ,
-        onPressed: null,
+      child: MaterialButton(
+        onPressed: () {
+          print('clicked');
+        },
         child: Text(
           title,
           style: TextStyle(
