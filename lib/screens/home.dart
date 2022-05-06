@@ -8,21 +8,27 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white24,
-        body: Column(
-          children: [
-            CustomScrollView(
-              reverse: false,
-              slivers: <Widget>[
-                SliverAppBar(
-                  expandedHeight: 250.0,
-                  backgroundColor: Colors.teal,
-                  actions: <Widget>[
-                    appbarButtons(title: 'Alarm'),
-                    appbarButtons(title: 'Clock'),
-                    appbarButtons(title: 'Timer'),
-                    appbarButtons(title: 'Stopwatch'),
-                  ],
+        body: CustomScrollView(
+          reverse: false,
+          slivers: <Widget>[
+            SliverAppBar(
+              expandedHeight: 500.0,
+              backgroundColor: Colors.teal,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text('Alarm is silenced', textScaleFactor: 0.5),
+                background: Container(
+                  width: 100,
+                  height: 100,
+                  child: ClockView(
+                    size: 100,
+                  ),
                 ),
+              ),
+              actions: <Widget>[
+                appbarButtons(title: 'Alarm'),
+                appbarButtons(title: 'Clock'),
+                appbarButtons(title: 'Timer'),
+                appbarButtons(title: 'Stopwatch'),
               ],
             ),
           ],

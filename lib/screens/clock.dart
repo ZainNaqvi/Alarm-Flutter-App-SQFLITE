@@ -1,32 +1,31 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:digital_alarm_app/constants/theme_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ClockView extends StatefulWidget {
   final double? size;
 
-  const ClockView({Key? key, this.size}) : super(key: key);
+  const ClockView({Key? key, required this.size}) : super(key: key);
   @override
   _ClockViewState createState() => _ClockViewState();
 }
 
 class _ClockViewState extends State<ClockView> {
   @override
-  // void initState() {
-  //   Timer.periodic(Duration(seconds: 1), (timer) {
-  //     setState(() {});
-  //   });
+  void initState() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {});
+    });
 
-  //   super.initState();
-  // }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.size,
-      height: widget.size,
       child: Transform.rotate(
         angle: -pi / 2,
         child: CustomPaint(
@@ -38,75 +37,88 @@ class _ClockViewState extends State<ClockView> {
 }
 
 class ClockPainter extends CustomPainter {
-  DateTime dateTime = DateTime.now();
+  var dateTime = DateTime.now();
+
+  //60sec - 360, 1 sec - 6degrees
+  //60min - 360, 1 min - 6degrees
+  //12hours - 360, 1 hour - 30degrees, 60min - 30degrees, 1 min - 0.5degrees
+
   @override
   void paint(Canvas canvas, Size size) {
     var centerX = size.width / 2;
-    var centerY = size.width / 2;
+    var centerY = size.height / 2;
     var center = Offset(centerX, centerY);
     var radius = min(centerX, centerY);
-//full circle
-    final circle_paint = Paint()..color = Colors.white;
-    canvas.drawCircle(center, radius, circle_paint);
-//seconds line
-    final sec_line = Paint()
 
-      // ignore: prefer_const_constructors
-      ..shader = RadialGradient(
-        colors: const [Colors.pink, Colors.purple],
-      ).createShader(Rect.fromCircle(
-        center: center,
-        radius: radius,
-      ))
-      ..strokeWidth = 4
-      ..strokeCap = StrokeCap.round;
-    //seconds
-    var secX = centerX + 50 * cos(dateTime.second * 6 * pi / 180);
-    var secY = centerY + 50 * sin(dateTime.second * 6 * pi / 180);
-    canvas.drawLine(center, Offset(secX, secY), sec_line);
-//hour line
-    final hr_line = Paint()
-      // ignore: prefer_const_constructors
-      ..shader = RadialGradient(
-        colors: const [Colors.blue, Colors.blueAccent],
-      ).createShader(Rect.fromCircle(
-        center: center,
-        radius: radius,
-      ))
-      ..strokeWidth = 5
-      ..strokeCap = StrokeCap.round;
-    //hour
-    var hrX = centerX +
-        80 * cos((dateTime.hour * 30 + dateTime.minute * 0.5) * pi / 180);
-    var hrY = centerY +
-        80 * sin((dateTime.hour * 30 + dateTime.minute * 0.5) * pi / 180);
+    var fillBrush = Paint()..color = Colors.transparent;
+    var outlineBrush = Paint()
+      ..color = Color.fromARGB(255, 132, 192, 185)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = size.width / 60;
+    var centerDotBrush = Paint()..color = Colors.white;
 
-    canvas.drawLine(center, Offset(hrX, hrY), hr_line);
-//min line
-    final min_line = Paint()
-      // ignore: prefer_const_constructors
-      ..shader = RadialGradient(
-        colors: const [Colors.orange, Colors.red],
-      ).createShader(Rect.fromCircle(
-        center: center,
-        radius: radius,
-      ))
-      ..strokeWidth = 4
-      ..strokeCap = StrokeCap.round;
+    var secHandBrush = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = size.width / 90;
 
-    //minute
-    var minX = centerX + 70 * cos(dateTime.minute * 6 * pi / 180);
-    var minY = centerY + 70 * sin(dateTime.minute * 6 * pi / 180);
-    canvas.drawLine(center, Offset(minX, minY), min_line);
+    var minHandBrush = Paint()
+      ..shader = RadialGradient(colors: [Colors.white30, Colors.white60])
+          .createShader(Rect.fromCircle(center: center, radius: radius))
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = size.width / 30;
 
-//inner cirlce
+    var hourHandBrush = Paint()
+      ..shader = RadialGradient(colors: [Colors.white30, Colors.white60])
+          .createShader(Rect.fromCircle(center: center, radius: radius))
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = size.width / 24;
 
-    final center_paint = Paint()..color = Colors.amber;
-    canvas.drawCircle(center, 12, center_paint);
+    var dashBrush = Paint()
+      ..color = Colors.white30
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+
+    canvas.drawCircle(center, radius * 0.6, fillBrush);
+    canvas.drawCircle(center, radius * 0.6, outlineBrush);
+
+    var hourHandX = centerX +
+        radius *
+            0.5 *
+            cos((dateTime.hour * 30 + dateTime.minute * 0.5) * pi / 180);
+    var hourHandY = centerY +
+        radius *
+            0.5 *
+            sin((dateTime.hour * 30 + dateTime.minute * 0.5) * pi / 180);
+    canvas.drawLine(center, Offset(hourHandX, hourHandY), hourHandBrush);
+
+    var minHandX = centerX + radius * 0.5 * cos(dateTime.minute * 6 * pi / 180);
+    var minHandY = centerY + radius * 0.5 * sin(dateTime.minute * 6 * pi / 180);
+    canvas.drawLine(center, Offset(minHandX, minHandY), minHandBrush);
+
+    var secHandX = centerX + radius * 0.5 * cos(dateTime.second * 6 * pi / 180);
+    var secHandY = centerY + radius * 0.5 * sin(dateTime.second * 6 * pi / 180);
+    canvas.drawLine(center, Offset(secHandX, secHandY), secHandBrush);
+
+    canvas.drawCircle(center, radius * 0.12, centerDotBrush);
+
+    var outerRadius = radius * 0.7;
+    var innerRadius = radius * 0.9;
+    for (var i = 0; i < 360; i += 12) {
+      var x1 = centerX + outerRadius * cos(i * pi / 180);
+      var y1 = centerY + outerRadius * sin(i * pi / 180);
+
+      var x2 = centerX + innerRadius * cos(i * pi / 180);
+      var y2 = centerY + innerRadius * sin(i * pi / 180);
+      canvas.drawLine(Offset(x1, y1), Offset(x2, y2), dashBrush);
+    }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+  bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
   }
 }
