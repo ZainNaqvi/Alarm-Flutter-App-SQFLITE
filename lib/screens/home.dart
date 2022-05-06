@@ -44,6 +44,7 @@ class HomeScreen extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (_, int index) {
                 return ListTile(
+                  dense: true,
                   leading: Container(
                     padding: EdgeInsets.all(8),
                     width: 100,
@@ -75,9 +76,11 @@ class HomeScreen extends StatelessWidget {
                             textScaleFactor: 0.9,
                             style: TextStyle(color: Colors.grey),
                           ),
-                          Text('Off',
-                              textScaleFactor: 0.9,
-                              style: TextStyle(color: Colors.grey)),
+                          Text(
+                            'Off',
+                            textScaleFactor: 0.9,
+                            style: TextStyle(color: Colors.grey),
+                          ),
                         ],
                       ),
                       Switch(value: false, onChanged: null),
@@ -85,10 +88,19 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               },
-              childCount: 10,
+              childCount: 30,
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.teal,
+        onPressed: () {},
+        child: Icon(
+          Icons.add,
+          size: 34,
+          color: Colors.grey[50],
+        ),
       ),
     );
   }
@@ -96,7 +108,8 @@ class HomeScreen extends StatelessWidget {
   Padding appbarButtons({required String title}) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
-      child: MaterialButton(
+      child: ElevatedButton(
+        style: ,
         onPressed: null,
         child: Text(
           title,
