@@ -8,7 +8,7 @@
 .buildlog/
 .history
 .svn/
-
+/Web
 # IntelliJ related
 *.iml
 *.ipr
