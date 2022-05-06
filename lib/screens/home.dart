@@ -7,32 +7,90 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white24,
-        body: CustomScrollView(
-          reverse: false,
-          slivers: <Widget>[
-            SliverAppBar(
-              expandedHeight: 500.0,
+      backgroundColor: Colors.white24,
+      body: CustomScrollView(
+        reverse: false,
+        slivers: <Widget>[
+          SliverAppBar(
+            bottom: AppBar(
               backgroundColor: Colors.teal,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text('Alarm is silenced', textScaleFactor: 0.5),
-                background: Container(
-                  width: 100,
-                  height: 100,
-                  child: ClockView(
-                    size: 100,
-                  ),
+              elevation: 0,
+              centerTitle: true,
+              title: Text(
+                "07:89 pm",
+                style: TextStyle(fontSize: 34),
+              ),
+            ),
+            pinned: true,
+            expandedHeight: 500.0,
+            backgroundColor: Colors.teal,
+            flexibleSpace: FlexibleSpaceBar(
+              collapseMode: CollapseMode.parallax,
+              centerTitle: true,
+              background: Container(
+                child: ClockView(
+                  size: 100,
                 ),
               ),
-              actions: <Widget>[
-                appbarButtons(title: 'Alarm'),
-                appbarButtons(title: 'Clock'),
-                appbarButtons(title: 'Timer'),
-                appbarButtons(title: 'Stopwatch'),
-              ],
             ),
-          ],
-        ));
+            actions: <Widget>[
+              appbarButtons(title: 'Alarm'),
+              appbarButtons(title: 'Clock'),
+              appbarButtons(title: 'Timer'),
+              appbarButtons(title: 'Stopwatch'),
+            ],
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (_, int index) {
+                return ListTile(
+                  leading: Container(
+                    padding: EdgeInsets.all(8),
+                    width: 100,
+                    child: Row(
+                      children: [
+                        Text('2:20'),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          'AM',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        VerticalDivider(
+                          color: Colors.grey[150],
+                          thickness: 1,
+                        ),
+                      ],
+                    ),
+                  ),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Everyday ${index + 1}',
+                            textScaleFactor: 0.9,
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          Text('Off',
+                              textScaleFactor: 0.9,
+                              style: TextStyle(color: Colors.grey)),
+                        ],
+                      ),
+                      Switch(value: false, onChanged: null),
+                    ],
+                  ),
+                );
+              },
+              childCount: 10,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Padding appbarButtons({required String title}) {
